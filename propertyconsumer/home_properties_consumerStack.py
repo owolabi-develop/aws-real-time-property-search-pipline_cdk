@@ -33,7 +33,7 @@ class ConsumerStack(Stack):
         )
         
         
-        latestproperty_data_Consumer = _dynamodb.Table(self,
+        latestproperty_data_Consumerdb = _dynamodb.Table(self,
                                                id= "latestpropertydataConsumer",
                                                table_name="Latestproperty",
                                                partition_key=_dynamodb.Attribute(
@@ -56,6 +56,21 @@ class ConsumerStack(Stack):
                                              role=lambda_consumer_role,
                                              environment=ENVIRONMENT,
                                              )
+        
+        ### api gateaway lambda function 
+        lambda_latestproperty_apigateway = _lambda.Function(self,
+                                             "lambdalatestpropertyapigateway",
+                                             runtime=_lambda.Runtime.PYTHON_3_10,
+                                             code=_lambda.Code.from_asset("lambda"),
+                                             handler="apigateway_lambda.handler",
+                                             timeout=Duration.seconds(60),
+                                             role=lambda_consumer_role,
+                                             environment=ENVIRONMENT,
+                                             )
+        
+        latestproperty_data_Consumerdb.grant_full_access(lambda_latestproperty_apigateway)
+        
+        
         
         property_bucket = aws_s3.Bucket(self,
                                             id="Propertybucket",

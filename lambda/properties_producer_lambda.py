@@ -1,14 +1,11 @@
 import json
 import boto3
 import base64
-import finnhub
+from homeharvest import scrape_property
 import datetime
 from pprint import pprint
 import os
 
-def create_partition_fromDate(update):
-    dt = datetime.datetime.strptime(update,"%Y-%m-%d %H:%M:%S")
-    return dt
     
 def handler(event,context):
     finnhub_client_data = finnhub.Client(api_key=os.environ['API_KEY'])
