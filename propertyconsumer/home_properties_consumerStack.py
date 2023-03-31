@@ -73,9 +73,9 @@ class ConsumerStack(Stack):
             id="apiGatewayRole",
              assumed_by=iam.ServicePrincipal("apigateway.amazonaws.com"),
              managed_policies=[
-                 iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"),
+                 #iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"),
                  iam.ManagedPolicy.from_aws_managed_policy_name("CloudWatchFullAccess"),
-                 iam.ManagedPolicy.from_aws_managed_policy_name("AWSLambdaBasicExecutionRole"),
+                 iam.ManagedPolicy.from_aws_managed_policy_name("AWSLambda_FullAccess"),
              ]
         )
         
