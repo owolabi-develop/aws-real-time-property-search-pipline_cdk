@@ -25,7 +25,7 @@ def handler(event,context):
         response = kinesis_client.put_record(
             StreamName=os.environ['STREAM_NAME'],
             Data=json.dumps(properties).encode('utf-8'),
-            PartitionKey=properties['last_sold_date']
+            PartitionKey=properties['year_built']
         )
     return response
     
