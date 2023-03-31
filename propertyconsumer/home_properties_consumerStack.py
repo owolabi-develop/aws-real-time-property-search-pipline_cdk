@@ -9,6 +9,7 @@ from aws_cdk import (
     aws_kinesis as kinesis,
     aws_s3,
     RemovalPolicy,
+    aws_apigateway
     
 )
 STREAM_ARN= "arn:aws:kinesis:us-east-1:521427190825:stream/Latestproperty"
@@ -37,9 +38,9 @@ class ConsumerStack(Stack):
                                                id= "latestpropertydataConsumer",
                                                table_name="Latestproperty",
                                                partition_key=_dynamodb.Attribute(
-                                                   name='status',type=_dynamodb.AttributeType.STRING),
+                                                   name='city',type=_dynamodb.AttributeType.STRING),
                                                sort_key=_dynamodb.Attribute(
-                                                   name='year_built',
+                                                   name='status',
                                                    type=_dynamodb.AttributeType.STRING
                                                    )
                                                )
@@ -67,7 +68,37 @@ class ConsumerStack(Stack):
                                              role=lambda_consumer_role,
                                              environment=ENVIRONMENT,
                                              )
+        api_getway_role = iam.Role(
+            self,
+            id="apiGatewayRole",
+             assumed_by=iam.ServicePrincipal("apigateway.amazonaws.com"),
+             managed_policies=[
+                 iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"),
+                 iam.ManagedPolicy.from_aws_managed_policy_name("CloudWatchFullAccess"),
+                 iam.ManagedPolicy.from_aws_managed_policy_name("AWSLambdaBasicExecutionRole"),
+             ]
+        )
         
+        ### api gatway -----------------------
+        api_lambda_gateway = aws_apigateway.LambdaRestApi(
+            self,"apilambdagateway",
+            handler=lambda_latestproperty_apigateway,
+            proxy=False,
+            integration_options= aws_apigateway.LambdaIntegrationOptions(
+                 allow_test_invoke=False,
+                 timeout=Duration.seconds(1),
+                 credentials_role=api_getway_role
+            )
+        )
+         ## add resources
+        propertie =  api_lambda_gateway.root.add_resource("properties")
+        propertie.add_method("GET")
+        propertie.add_resource("{city}")
+        
+        
+       
+        
+         ## grant lambda_latestproperty_apigateway  full access to dynamodb
         latestproperty_data_Consumerdb.grant_full_access(lambda_latestproperty_apigateway)
         
         

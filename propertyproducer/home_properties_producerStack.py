@@ -42,7 +42,7 @@ class HomePropertiesStack(Stack):
         
         lambda_properties_data_producer = _lambda.Function(self,
                                              "propertiesdataproducer",
-                                             runtime=_lambda.Runtime.PYTHON_3_10,
+                                             runtime=_lambda.Runtime.PYTHON_3_12,
                                              code=_lambda.Code.from_asset("lambda"),
                                              handler="properties_producer_lambda.handler",
                                              timeout=Duration.minutes(3),
