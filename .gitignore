@@ -8,4 +8,4 @@ __pycache__
 # CDK asset staging directory
 .cdk.staging
 cdk.out
-layer/hervest_layer/python
+layer/property_layer/python

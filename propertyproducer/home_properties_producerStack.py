@@ -12,9 +12,6 @@ from  aws_cdk import (
 )
 
 ENVIRONMENT = {
-    'location':"San Diego, CA",
-    "listing_type":"sold",
-    "past_days":50,
     "STREAM_NAME":"Latestproperty"
 }
 
@@ -38,17 +35,17 @@ class HomePropertiesStack(Stack):
         homeharvest_data_layer = _lambda.LayerVersion(
             self,
             "homeharvestdatalayer",
-            code=_lambda.AssetCode("layer/hervest_layer")
+            code=_lambda.AssetCode("layer/property_layer")
         )
         
         
         
         lambda_properties_data_producer = _lambda.Function(self,
-                                             "CovidLambdaDeathRateProducer",
+                                             "propertiesdataproducer",
                                              runtime=_lambda.Runtime.PYTHON_3_10,
                                              code=_lambda.Code.from_asset("lambda"),
                                              handler="properties_producer_lambda.handler",
-                                             timeout=Duration.seconds(60),
+                                             timeout=Duration.minutes(3),
                                              layers=[homeharvest_data_layer],
                                              role=lambda_role,
                                              environment=ENVIRONMENT
