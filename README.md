@@ -4,9 +4,7 @@ This pipline is base on real-time real estate property search it simulate 200 of
 lastly use firehose to send the real time data to redshift for futher analytics
 
 ## Architechure Diagram
-
-![Architechure Diagram](diagramphoto\aws_digram_project2.png)
-
+![alt text](diagramphoto/aws_digram_project2.png)
 ```
 $ python -m venv .venv
 ```
