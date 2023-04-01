@@ -3,7 +3,7 @@
 create EXTERNAL SCHEMA property_schema
 FROM DATA CATALOG
 database 'enhance_property'
-IAM_ROLE 'arn:aws:iam::521427190825:role/RedshiftproperyRole'
+IAM_ROLE 'arn:aws:iam::52142885190825:role/RedshiftproperyRole'
 create EXTERNAL DATABASE if not exists;
 
 -------------------

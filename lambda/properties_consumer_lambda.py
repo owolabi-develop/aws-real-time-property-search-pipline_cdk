@@ -4,6 +4,7 @@ import json
 import logging
 import datetime
 import os
+from decimal import Decimal
 
 
 def handler(event,context):
@@ -13,7 +14,7 @@ def handler(event,context):
     table = dynamodb.Table("Latestproperty")
     for record in event['Records']:
         record_data = base64.b64decode(record['kinesis']['data']).decode('utf-8')
-        data = json.loads(record_data)
+        data = json.loads(record_data,parse_float=Decimal)
         table.put_item(
             Item=data
         )

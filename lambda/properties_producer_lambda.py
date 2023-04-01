@@ -3,6 +3,8 @@ import boto3
 import os
 import random
 from faker import Faker
+from decimal import Decimal
+
 
 fake = Faker()
 
