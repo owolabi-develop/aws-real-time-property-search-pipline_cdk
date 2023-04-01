@@ -12,16 +12,16 @@ spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args["JOB_NAME"], args)
 
-# Script generated for node AWS Glue Data Catalog
-AWSGlueDataCatalog_node1711980189310 = glueContext.create_dynamic_frame.from_catalog(
+
+PropertyDataCatalog = glueContext.create_dynamic_frame.from_catalog(
     database="property-database",
     table_name="property_raw_zone",
     transformation_ctx="AWSGlueDataCatalog_node1711980189310",
 )
 
-# Script generated for node Change Schema
-ChangeSchema_node1711980219070 = ApplyMapping.apply(
-    frame=AWSGlueDataCatalog_node1711980189310,
+# Change Schema
+PropertyChangeSchema= ApplyMapping.apply(
+    frame=PropertyDataCatalog,
     mappings=[
         ("property_url", "string", "property_url", "string"),
         ("mls", "string", "mls", "string"),
@@ -61,9 +61,10 @@ ChangeSchema_node1711980219070 = ApplyMapping.apply(
     transformation_ctx="ChangeSchema_node1711980219070",
 )
 
-# Script generated for node Amazon S3
+## write data to s3 consumption bucket and partition by "state", "street", "status"
+
 AmazonS3_node1711980294963 = glueContext.write_dynamic_frame.from_options(
-    frame=ChangeSchema_node1711980219070,
+    frame=PropertyChangeSchema,
     connection_type="s3",
     format="glueparquet",
     connection_options={
