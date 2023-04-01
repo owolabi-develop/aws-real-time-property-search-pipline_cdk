@@ -11,7 +11,7 @@ from kinesisFirehose.kinesisFirehoseStack import KinesisFireHoseStack
 app = cdk.App()
 env_US = cdk.Environment(account="521427190825",region='us-east-1')
 
-KinesisStreamStack(app,"KinesisStreamFireHoseDeliveryStack",env=env_US)
+KinesisStreamStack(app,"KinesisStreamStack",env=env_US)
 ConsumerStack(app,"ConsumerStack",env=env_US)
 HomePropertiesStack(app,"HomePropertiesStack",env=env_US)
 KinesisFireHoseStack(app,"KinesisFireHoseStack",env=env_US)

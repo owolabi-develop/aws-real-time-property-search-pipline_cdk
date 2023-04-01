@@ -18,7 +18,7 @@ from  aws_cdk import (
 import aws_cdk.aws_s3_deployment as s3deploy
 
 
-
+STREAM_ARN = "arn:aws:kinesis:us-east-1:521427190825:stream/Latestproperty"
 
 
 class KinesisFireHoseStack(Stack):
@@ -63,7 +63,7 @@ class KinesisFireHoseStack(Stack):
             
             ## kinesis connection
             kinesis_stream_source_configuration= _firehose.CfnDeliveryStream.KinesisStreamSourceConfigurationProperty(
-                kinesis_stream_arn= property_stream.stream_arn,
+                kinesis_stream_arn= STREAM_ARN,
                 role_arn=firehose_role.role_arn
             ),
             s3_destination_configuration=_firehose.CfnDeliveryStream.S3DestinationConfigurationProperty(

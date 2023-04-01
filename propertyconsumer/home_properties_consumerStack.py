@@ -101,17 +101,10 @@ class ConsumerStack(Stack):
          ## grant lambda_latestproperty_apigateway  full access to dynamodb
         latestproperty_data_Consumerdb.grant_full_access(lambda_latestproperty_apigateway)
         
+        latestproperty_data_Consumerdb.grant_read_write_data(lambda_latestproperty_data_consumer)
         
         
-        property_bucket = aws_s3.Bucket(self,
-                                            id="Propertybucket",
-                                            bucket_name="properties-bucket",
-                                            removal_policy=RemovalPolicy.DESTROY,
-                                            auto_delete_objects=True,
-                                            encryption=aws_s3.BucketEncryption.KMS
-                                            )
         
-        property_bucket.grant_read_write(lambda_latestproperty_data_consumer)
         
         stream = kinesis.Stream.from_stream_arn(self,
                                                 "LatestPropertiesStream",
