@@ -17,12 +17,6 @@ def handler(event,context):
         table.put_item(
             Item=data
         )
-        s3_data = bytes(json.dumps(data).encode('utf-8'))
-
-        response = s3_client.put_object(
-            Bucket=BUCKET_NAME,
-            Key=f'Latestproperty.json-{datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")}.json',
-            Body=s3_data
-        )
+       
        
     
